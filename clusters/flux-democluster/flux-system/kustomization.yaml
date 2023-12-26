@@ -3,13 +3,3 @@ kind: Kustomization
 resources:
 - gotk-components.yaml
 - gotk-sync.yaml
-- shard01
-patches:
-  - target:
-      kind: Deployment
-      name: "(kustomize-controller|helm-controller)"
-      annotationSelector: "!sharding.fluxcd.io/role"
-    patch: |
-      - op: add
-        path: /spec/template/spec/containers/0/args/0
-        value: --watch-label-selector=!sharding.fluxcd.io/key
