@@ -23,36 +23,7 @@ patches:
       kind: all
       metadata:
         name: all
-      $patch: delete      
-  - target:
-      kind: Deployment
-      name: (image-reflector-controller|image-automation-controller)
-    patch: |
-      apiVersion: v1
-      kind: Deployment
-      metadata:
-        name: all
-      $patch: delete      
-  - target:
-      kind: Service
-      name: source-controller
-    patch: |
-      - op: replace
-        path: /spec/selector/app
-        value: source-controller-shard01      
-  - target:
-      kind: Deployment
-      name: source-controller
-    patch: |
-      - op: replace
-        path: /spec/selector/matchLabels/app
-        value: source-controller-shard01
-      - op: replace
-        path: /spec/template/metadata/labels/app
-        value: source-controller-shard01
-      - op: replace
-        path: /spec/template/spec/containers/0/args/6
-        value: --storage-adv-addr=source-controller-shard01.$(RUNTIME_NAMESPACE).svc.cluster.local.      
+      $patch: delete        
   - target:
       kind: Deployment
       name: kustomize-controller
@@ -75,7 +46,7 @@ patches:
         value: helm-controller-shard01      
   - target:
       kind: Deployment
-      name: (source-controller|kustomize-controller|helm-controller)
+      name: (kustomize-controller|helm-controller)
     patch: |
       - op: add
         path: /spec/template/spec/containers/0/args/-
