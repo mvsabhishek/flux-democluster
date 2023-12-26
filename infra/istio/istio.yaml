@@ -69,7 +69,9 @@ spec:
             cpu: 10m
             memory: 16Mi
     pilot:
-      autoscaleEnabled: false
+      autoscaleEnabled: true
+      autoscaleMin: 1
+      autoscaleMax: 5
       resources:
         requests:
           cpu: 100m
