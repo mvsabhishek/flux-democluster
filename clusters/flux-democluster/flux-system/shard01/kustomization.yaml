@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - ../gotk-components.yaml
-nameSuffix: "-shard1"
+nameSuffix: "-shard01"
 commonAnnotations:
   sharding.fluxcd.io/role: "shard"
 patches:
@@ -39,44 +39,44 @@ patches:
     patch: |
       - op: replace
         path: /spec/selector/app
-        value: source-controller-shard1      
+        value: source-controller-shard01      
   - target:
       kind: Deployment
       name: source-controller
     patch: |
       - op: replace
         path: /spec/selector/matchLabels/app
-        value: source-controller-shard1
+        value: source-controller-shard01
       - op: replace
         path: /spec/template/metadata/labels/app
-        value: source-controller-shard1
+        value: source-controller-shard01
       - op: replace
         path: /spec/template/spec/containers/0/args/6
-        value: --storage-adv-addr=source-controller-shard1.$(RUNTIME_NAMESPACE).svc.cluster.local.      
+        value: --storage-adv-addr=source-controller-shard01.$(RUNTIME_NAMESPACE).svc.cluster.local.      
   - target:
       kind: Deployment
       name: kustomize-controller
     patch: |
       - op: replace
         path: /spec/selector/matchLabels/app
-        value: kustomize-controller-shard1
+        value: kustomize-controller-shard01
       - op: replace
         path: /spec/template/metadata/labels/app
-        value: kustomize-controller-shard1      
+        value: kustomize-controller-shard01      
   - target:
       kind: Deployment
       name: helm-controller
     patch: |
       - op: replace
         path: /spec/selector/matchLabels/app
-        value: helm-controller-shard1
+        value: helm-controller-shard01
       - op: replace
         path: /spec/template/metadata/labels/app
-        value: helm-controller-shard1      
+        value: helm-controller-shard01      
   - target:
       kind: Deployment
       name: (source-controller|kustomize-controller|helm-controller)
     patch: |
       - op: add
         path: /spec/template/spec/containers/0/args/-
-        value: --watch-label-selector=sharding.fluxcd.io/key=shard1
+        value: --watch-label-selector=sharding.fluxcd.io/key=shard01
